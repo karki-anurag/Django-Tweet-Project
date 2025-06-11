@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Tweet List
+{% endblock %}
+
+{% block Content %}
+<h1 class="text-center mt-4">Welcome to the Tweet Page</h1>
+
+<a class="btn btn-primary" href="{% url 'tweet_create' %}">Create a Tweet</a>
+
+<div class="container row gap-3">
+    {% for tweets in tweet %}
+    <div class="card m-3" style="width: 18rem;">
+        <img src="{{ tweets.image.url }}" class="card-img-top" alt="Tweet image">
+        <div class="card-body">
+            <h5 class="card-title">{{ tweets.user.username }}</h5>
+            <p class="card-text">{{ tweets.text }}</p>
+            <a href="{% url 'tweet_edit' tweets.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'tweet_delete' tweets.id %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

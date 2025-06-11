@@ -12,7 +12,7 @@ def index(request):
 
 def tweet_list(request):
     tweet = Tweet.objects.all().order_by('-created_at')
-    return(request, 'home.html', {'tweet': tweet})
+    return render(request, 'tweet_list.html', {'tweet': tweet})
 
 def tweet_create(request):
     if request.method == "POST":
@@ -24,7 +24,7 @@ def tweet_create(request):
           return redirect('tweet_list')
     else:
         form = TweetForms()
-    return(request, 'form_create.html', {'form': form})
+    return render(request, 'form_create.html', {'form': form})
 
 
 def tweet_edit(request, tweet_id):
@@ -36,13 +36,13 @@ def tweet_edit(request, tweet_id):
             tweet.user = request.user
             tweet.save()
             return redirect('tweet_list')
-        else:
+    else:
             form = TweetForms(instance=tweet)
-    return(request, 'form_create.html', {'form': form})
+    return render(request, 'form_create.html', {'form': form})
 
 def tweet_delete(request, tweet_id):
     tweet = get_object_or_404(Tweet, pk = tweet_id, user = request.user)
-    if request.method == 'POSt':
+    if request.method == 'POST':
         tweet.delete()
         return redirect('tweet_list')
-    return(request, 'tweet_confirm_delete.html', {'tweet': tweet})
+    return render(request, 'tweet_confirm_delete.html', {'tweet': tweet})
